@@ -50,6 +50,6 @@ Changing the setup
 ------------------
 If you want to use this package with an other robot, an other end effector or an other camera setup (eg: camera is fixed) this is what you should care about:
 
-- Change the `ensenso_extrinsic_calibration.launch` file to match your robot definition.
-- Define the `ensenso_n10` manipulator in your MoveIt package and `ensenso_n10_tcp` frame, another option is to change them in the [node](https://github.com/InstitutMaupertuis/ensenso_extrinsic_calibration/blob/indigo-devel/grinding_ensenso_extrinsic_calibration/src/ensenso_extrinsic_calibration.cpp#L26-L31).
-- Change the calibration parameters in the [node](https://github.com/InstitutMaupertuis/ensenso_extrinsic_calibration/blob/indigo-devel/grinding_ensenso_extrinsic_calibration/src/ensenso_extrinsic_calibration.cpp#L303) (eg: fixed instead of moving)
+- Change the [`calibration.launch`](https://github.com/InstitutMaupertuis/ensenso_extrinsic_calibration/blob/indigo-devel/grinding_ensenso_extrinsic_calibration/launch/calibration.launch) file to match your robot definition.
+- Define the `ensenso_n10` manipulator in your MoveIt package and `ensenso_n10_tcp` frame, another option is to change them in the [node](https://github.com/InstitutMaupertuis/ensenso_extrinsic_calibration/blob/indigo-devel/grinding_ensenso_extrinsic_calibration/src/ensenso_extrinsic_calibration.cpp#L29-L34).
+- Change the calibration parameters in the [node](https://github.com/InstitutMaupertuis/ensenso_extrinsic_calibration/blob/indigo-devel/grinding_ensenso_extrinsic_calibration/src/ensenso_extrinsic_calibration.cpp#L304) (eg: fixed instead of moving)
