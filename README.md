@@ -7,6 +7,7 @@ This package allows to automatically calibrate the Ensenso on the robot by movin
 
 <img src="https://raw.githubusercontent.com/InstitutMaupertuis/ensenso_extrinsic_calibration/indigo-devel/documentation/01.png" align="center" height="300">
 
+[This video](https://youtu.be/2g6gdx8fKX8) shows the calibration on the real robot.
 The [tutorial](documentation/tutorial.md) folder contains explanations about how to use this package.
 
 Directories in the project
