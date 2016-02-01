@@ -23,9 +23,9 @@ Directories in the project
 Dependencies
 ------------
 - [Robot Operating System](http://wiki.ros.org/ROS/Installation)
-- [`industrial-core`](https://github.com/ros-industrial/industrial_core)
-- [`fanuc`](https://github.com/ros-industrial/fanuc)
-- [`fanuc experimental`](https://github.com/ros-industrial/fanuc_experimental)
+- [`industrial-core`](http://wiki.ros.org/industrial_core)
+- [`fanuc`](http://wiki.ros.org/fanuc)
+- [`fanuc experimental`](http://wiki.ros.org/fanuc_experimental)
 - [`institut_maupertuis_robots_descriptions`](https://github.com/InstitutMaupertuis/institut_maupertuis_robots_descriptions)
 
 This package has been tested with Ubuntu 14.04 and ROS Indigo.
