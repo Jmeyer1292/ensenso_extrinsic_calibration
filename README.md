@@ -3,7 +3,7 @@
 ![Institut Maupertuis logo](https://avatars1.githubusercontent.com/u/12760694?v=3&s=200)
 
 This is a ROS package of a Fanuc R1000iA 80f with a grinding end effector and a 3D sensor mounted on the end effector.
-This package allows to automatically calibrate the Ensenso on the robot by moving arround a target.
+This package allows to automatically calibrate the Ensenso on the robot by moving around a target.
 
 <img src="https://raw.githubusercontent.com/InstitutMaupertuis/ensenso_extrinsic_calibration/indigo-devel/documentation/01.png" align="center" height="300">
 
@@ -29,11 +29,11 @@ Dependencies
 - [`institut_maupertuis_robots_descriptions`](https://github.com/InstitutMaupertuis/institut_maupertuis_robots_descriptions)
 
 This package has been tested with Ubuntu 14.04 and ROS Indigo.
-The package was designed to be used with a Fanuc R1000iA 80f robot, however it should be easy to port it on other ROS compatible robots.
+The package was designed to be used with a Fanuc R1000iA 80f robot however it should be easy to port it on other ROS compatible robots; refer to the [last section](https://github.com/InstitutMaupertuis/ensenso_extrinsic_calibration/blob/indigo-devel/README.md#changing-the-setup).
 
 Install
 -------
-Install the dependencies by cloning the repositories into your catkin workspace.
+Install the dependencies by following the wiki instructions and cloning the repositories into your catkin workspace.
 
 `cd` to your catkin workspace source directory:
 ```
