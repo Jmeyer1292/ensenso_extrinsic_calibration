@@ -31,6 +31,7 @@ Dependencies
 - [`industrial-core`](http://wiki.ros.org/industrial_core)
 - [`fanuc`](https://github.com/InstitutMaupertuis/fanuc.git) :warning: Joint limits have been tweaked
 - [`fanuc_experimental`](https://github.com/InstitutMaupertuis/fanuc_experimental.git) :warning: Joint limits have been tweaked
+- [`universal_robot`](https://github.com/ros-industrial/universal_robot) :warning: Use the source repository instead of the release
 - [`institut_maupertuis_robots_descriptions`](https://github.com/InstitutMaupertuis/institut_maupertuis_robots_descriptions)
 
 This package has been tested with Ubuntu 14.04 and ROS Indigo.

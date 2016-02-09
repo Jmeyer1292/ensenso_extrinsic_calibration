@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<launch>
+
+  <!-- If sim=false, then robot_ip is required -->
+  <arg name="sim" default="true" />
+  <arg name="robot_ip" unless="$(arg sim)" />
+  <!-- By default, we are not in debug mode -->
+  <arg name="debug" default="false" />
+
+  <!-- Limited joint angles are used. Prevents complex robot configurations and makes the planner more efficient -->
+  <!-- <arg name="limited" default="true" /> -->
+
+  <!-- Load UR10 URDF file - robot description file -->
+  <include file="$(find ur10_ensenso_moveit_config)/launch/planning_context.launch">
+    <arg name="load_robot_description" value="true" />
+    <!-- <arg name="limited" value="$(arg limited)" /> -->
+  </include>
+
+  <!-- Given the published joint states, publish tf for the robot links -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true" output="screen" />
+  <include file="$(find ur10_ensenso_moveit_config)/launch/move_group.launch">
+    <arg name="publish_monitored_planning_scene" value="true"/>
+    <arg name="allow_trajectory_execution" value="true"/>
+    <arg name="fake_execution" value="false"/>
+    <arg name="info" value="true"/>
+    <arg name="debug" value="false"/>
+  </include>
+
+  <rosparam param="controller_joint_names">
+    ['shoulder_pan_joint', 'shoulder_lift_joint', 'elbow_joint', 'wrist_1_joint', 'wrist_2_joint', 'wrist_3_joint']
+  </rosparam>
+
+  <!-- run the "real robot" interface nodes -->
+  <!--   - this typically includes: robot_state, motion_interface, and joint_trajectory_action nodes -->
+  <!--   - replace these calls with appropriate robot-specific calls or launch files -->
+  <group unless="$(arg sim)">
+    <remap from="/follow_joint_trajectory/status" to="/joint_trajectory_action/status" />
+    <remap from="/follow_joint_trajectory/feedback" to="/joint_trajectory_action/feedback" />
+    <remap from="/follow_joint_trajectory/result" to="/joint_trajectory_action/result" />
+    <remap from="/follow_joint_trajectory/goal" to="/joint_trajectory_action/goal" />
+    <remap from="/follow_joint_trajectory/cancel" to="/joint_trajectory_action/cancel" />
+
+    <node name="ur_driver" pkg="ur_driver" type="driver.py" args="$(arg robot_ip)" required="true" output="screen" />
+
+    <!-- TF Buffer Server -->
+    <node pkg="tf2_ros" type="buffer_server" name="tf2_buffer_server" output="screen">
+    <param name="buffer_size" value="120.0"/>
+    </node>
+  </group>
+
+  <!-- run the robot simulator and action interface nodes -->
+  <group if="$(arg sim)">
+    <include file="$(find industrial_robot_simulator)/launch/robot_interface_simulator.launch" />
+    <rosparam param="initial_joint_state">[0, -1.5707, -1.5707, -1.5707, 1.5707, 0]</rosparam>
+  </group>
+
+  <!-- <group if="$(arg sim)">
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+      <param name="/use_gui" value="true"/>
+      <rosparam param="/source_list">[/move_group/fake_controller_joint_states]</rosparam>
+    </node>
+  </group> -->
+
+  <!-- If using real robot, initialise connection to the real robot -->
+
+  <!--<group unless="$(arg sim)">
+    <include file="$(find ur10_ensenso_support)/launch/robot_interface_streaming_ur10_ensenso.launch">
+      <arg name="robot_ip" value="$(arg robot_ip)" />
+    </include>
+  </group> -->
+
+  <node name="ur10_ensenso_extrinsic_calibration" pkg="ur10_ensenso_extrinsic_calibration" type="ur10_ensenso_extrinsic_calibration" output="screen" required="true" />
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find ur10_ensenso_extrinsic_calibration)/config/robot_state_visualize.rviz" required="true" />
+</launch>
