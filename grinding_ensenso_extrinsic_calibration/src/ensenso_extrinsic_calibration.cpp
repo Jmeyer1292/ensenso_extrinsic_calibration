@@ -155,7 +155,7 @@ bool performCalibration(grinding_ensenso_extrinsic_calibration::PerformEnsensoCa
                         grinding_ensenso_extrinsic_calibration::PerformEnsensoCalibration::Response &res)
 {
   // Get parameters from the message
-  const int number_of_poses(req.number_of_poses);
+  const unsigned int number_of_poses(req.number_of_poses);
   req.number_of_poses = 12;
   const float grid_spacing(req.grid_spacing);
   const float calibration_plate_distance(req.calibration_plate_distance);
@@ -169,14 +169,14 @@ bool performCalibration(grinding_ensenso_extrinsic_calibration::PerformEnsensoCa
 
   // Get initial (current) pose where the pattern is visible
   tf::TransformListener listener;
-  listener.waitForTransform("/base", "/ensenso_n10_tcp", ros::Time::now(), ros::Duration(1.0));
+  listener.waitForTransform("/base", tcp_name, ros::Time::now(), ros::Duration(1.0));
   tf::StampedTransform transform_stamp;
   Eigen::Affine3d initial_pose;
 
   std_msgs::String status;
   try
   {
-    listener.lookupTransform("/base", "/ensenso_n10_tcp", ros::Time(0), transform_stamp);
+    listener.lookupTransform("/base", tcp_name, ros::Time(0), transform_stamp);
     transformTFToEigen(transform_stamp, initial_pose);
   }
   catch (tf::TransformException &ex)
@@ -243,7 +243,7 @@ bool performCalibration(grinding_ensenso_extrinsic_calibration::PerformEnsensoCa
 
     ensenso->start();
     tf::poseEigenToMsg(generateRandomHemispherePose(obj_origin, tool_origin), way_points_msg[0]);
-    listener.waitForTransform("/base", "/ensenso_n10_tcp", ros::Time::now(), ros::Duration(1.5));
+    listener.waitForTransform("/base", tcp_name, ros::Time::now(), ros::Duration(1.5));
     if (group->computeCartesianPath(way_points_msg, 0.05, 0, srv.request.trajectory) < 0.95)
     {
       ROS_WARN_STREAM("Cannot reach pose: skipping to next pose");
@@ -291,7 +291,7 @@ bool performCalibration(grinding_ensenso_extrinsic_calibration::PerformEnsensoCa
   status.data = "Moving robot to initial pose";
   status_pub->publish(status);
   tf::poseEigenToMsg(initial_pose, way_points_msg[0]);
-  listener.waitForTransform("/base", "/ensenso_n10_tcp", ros::Time::now(), ros::Duration(1.5));
+  listener.waitForTransform("/base", tcp_name, ros::Time::now(), ros::Duration(1.5));
   if (group->computeCartesianPath(way_points_msg, 0.05, 0, srv.request.trajectory) > 0.95)
     executeKnownTrajectoryServiceClient.call(srv);
 
@@ -355,7 +355,7 @@ bool testCalibration(grinding_ensenso_extrinsic_calibration::TestEnsensoCalibrat
                      grinding_ensenso_extrinsic_calibration::TestEnsensoCalibration::Response &res)
 {
   // Get parameters from the message
-  const int number_of_poses(req.number_of_poses);
+  const unsigned int number_of_poses(req.number_of_poses);
   const float calibration_plate_distance(req.calibration_plate_distance);
   ensenso->stop();
 
@@ -366,14 +366,14 @@ bool testCalibration(grinding_ensenso_extrinsic_calibration::TestEnsensoCalibrat
 
   // Get initial (current) pose where the pattern is visible
   tf::TransformListener listener;
-  listener.waitForTransform("/base", "/ensenso_n10_tcp", ros::Time::now(), ros::Duration(1.0));
+  listener.waitForTransform("/base", tcp_name, ros::Time::now(), ros::Duration(1.0));
   tf::StampedTransform transform_stamp;
   Eigen::Affine3d initial_pose;
 
   std_msgs::String status;
   try
   {
-    listener.lookupTransform("/base", "/ensenso_n10_tcp", ros::Time(0), transform_stamp);
+    listener.lookupTransform("/base", tcp_name, ros::Time(0), transform_stamp);
     transformTFToEigen(transform_stamp, initial_pose);
   }
   catch (tf::TransformException &ex)
@@ -442,7 +442,7 @@ bool testCalibration(grinding_ensenso_extrinsic_calibration::TestEnsensoCalibrat
     }
 
     tf::poseEigenToMsg(generateRandomHemispherePose(obj_origin, tool_origin), way_points_msg[0]);
-    listener.waitForTransform("/base", "/ensenso_n10_tcp", ros::Time::now(), ros::Duration(1.5));
+    listener.waitForTransform("/base", tcp_name, ros::Time::now(), ros::Duration(1.5));
     if (group->computeCartesianPath(way_points_msg, 0.05, 0, srv.request.trajectory) < 0.95)
     {
       ROS_WARN_STREAM("Cannot reach pose: skipping to next pose");
@@ -503,7 +503,7 @@ bool testCalibration(grinding_ensenso_extrinsic_calibration::TestEnsensoCalibrat
   status.data = "Moving robot to initial pose";
   status_pub->publish(status);
   tf::poseEigenToMsg(initial_pose, way_points_msg[0]);
-  listener.waitForTransform("/base", "/ensenso_n10_tcp", ros::Time::now(), ros::Duration(1.5));
+  listener.waitForTransform("/base", tcp_name, ros::Time::now(), ros::Duration(1.5));
   if (group->computeCartesianPath(way_points_msg, 0.05, 0, srv.request.trajectory) > 0.95)
     executeKnownTrajectoryServiceClient.call(srv);
 
@@ -513,7 +513,7 @@ bool testCalibration(grinding_ensenso_extrinsic_calibration::TestEnsensoCalibrat
   pcl::GlasbeyLUT colors;
   pcl::PointCloud<pcl::PointXYZRGB>::Ptr clouds_stacked(new pcl::PointCloud<pcl::PointXYZRGB>);
 
-  for (int i = 0; i < clouds.size(); ++i)
+  for (unsigned int i = 0; i < clouds.size(); ++i)
   {
     pcl::PointCloud<pcl::PointXYZRGB> cloud_xyzrgb;
     copyPointCloud(*clouds[i], cloud_xyzrgb);
