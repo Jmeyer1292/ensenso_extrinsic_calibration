@@ -156,10 +156,9 @@ bool performCalibration(grinding_ensenso_extrinsic_calibration::PerformEnsensoCa
 {
   // Get parameters from the message
   const unsigned int number_of_poses(req.number_of_poses);
-  req.number_of_poses = 12;
   const float grid_spacing(req.grid_spacing);
   const float calibration_plate_distance(req.calibration_plate_distance);
-  bool store_to_eeprom(req.store_to_EEPROM);
+  const bool store_to_eeprom(req.store_to_EEPROM);
 
   // Setup Ensenso
   ensenso->stop();
@@ -189,10 +188,12 @@ bool performCalibration(grinding_ensenso_extrinsic_calibration::PerformEnsensoCa
   }
 
   // The robot should be vertical to the calibration plate at this moment
-  const Eigen::Vector3d tool_origin(initial_pose.translation()[0], initial_pose.translation()[1],
+  const Eigen::Vector3d tool_origin(initial_pose.translation()[0],
+                                    initial_pose.translation()[1],
                                     initial_pose.translation()[2]),
-                        obj_origin(tool_origin[0], tool_origin[1],
-                                   tool_origin[2] - calibration_plate_distance / 1000.0); // Focal distance of the Ensenso
+                        obj_origin(tool_origin[0],
+                                   tool_origin[1],
+                                   tool_origin[2] - (calibration_plate_distance / 1000.0)); // Focal distance of the Ensenso
 
                                    // Marker showing the calibration plate location and sphere of motion
   sphere_marker.header.stamp = ros::Time::now();
@@ -393,9 +394,11 @@ bool testCalibration(grinding_ensenso_extrinsic_calibration::TestEnsensoCalibrat
   }
 
   // The robot should be vertical to the calibration plate at this moment
-  const Eigen::Vector3d tool_origin(initial_pose.translation()[0], initial_pose.translation()[1],
+  const Eigen::Vector3d tool_origin(initial_pose.translation()[0],
+                                    initial_pose.translation()[1],
                                     initial_pose.translation()[2]),
-                        obj_origin(tool_origin[0], tool_origin[1],
+                        obj_origin(tool_origin[0],
+                                   tool_origin[1],
                                    tool_origin[2] - calibration_plate_distance / 1000.0); // Focal distance of the Ensenso
 
                                    // Marker showing the sphere of motion
