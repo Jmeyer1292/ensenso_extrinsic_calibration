@@ -238,6 +238,13 @@ bool performCalibration(grinding_ensenso_extrinsic_calibration::PerformEnsensoCa
       status_pub->publish(status);
       res.return_message = status.data;
       res.return_status = false;
+
+      // Go back to initial pose (if possible)
+      tf::poseEigenToMsg(initial_pose, way_points_msg[0]);
+      listener.waitForTransform("/base", tcp_name, ros::Time::now(), ros::Duration(1.5));
+      if (group->computeCartesianPath(way_points_msg, 0.05, 0, srv.request.trajectory) > 0.5)
+        executeKnownTrajectoryServiceClient.call(srv);
+
       return true;
     }
 
