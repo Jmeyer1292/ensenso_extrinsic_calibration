@@ -1,6 +1,12 @@
  [![Institut Maupertuis logo](https://avatars1.githubusercontent.com/u/12760694?v=3&s=80)](http://www.institutmaupertuis.fr) Ensenso extrinsic calibration
 =============================
 
+# Travis CI
+
+[![Travis-CI](https://api.travis-ci.org/InstitutMaupertuis/ensenso_extrinsic_calibration.svg?branch=indigo-devel)](https://travis-ci.org/InstitutMaupertuis/ensenso_extrinsic_calibration/branches) 
+
+# General information
+
 This is a ROS package of a Fanuc R1000iA 80f with a grinding end effector and a 3D sensor mounted on the end effector.
 This package allows to automatically calibrate the Ensenso on the robot by moving around a target.
 
