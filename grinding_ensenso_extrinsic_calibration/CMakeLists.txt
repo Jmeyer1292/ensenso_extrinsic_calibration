@@ -5,6 +5,7 @@ find_package(catkin REQUIRED COMPONENTS
              cv_bridge
              message_generation
              moveit_ros_planning_interface
+             pcl_ros
              roscpp
              std_msgs
              tf tf_conversions
