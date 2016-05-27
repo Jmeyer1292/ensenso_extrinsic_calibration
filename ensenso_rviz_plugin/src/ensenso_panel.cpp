@@ -129,7 +129,7 @@ void EnsensoPanel::connectToServicesSubscribersPublishers()
     }
     else
     {
-      ROS_ERROR_STREAM("RViz panel could not connect to ROS service:\n\t" << calib_client_.getService());
+      ROS_WARN_STREAM("RViz panel could not connect to ROS service:\n\t" << calib_client_.getService());
       sleep(1);
     }
   }
@@ -142,7 +142,7 @@ void EnsensoPanel::connectToServicesSubscribersPublishers()
     }
     else
     {
-      ROS_ERROR_STREAM("RViz panel could not connect to ROS service:\n\t" << test_client_.getService());
+      ROS_WARN_STREAM("RViz panel could not connect to ROS service:\n\t" << test_client_.getService());
       sleep(1);
     }
   }
@@ -158,7 +158,7 @@ void EnsensoPanel::connectToServicesSubscribersPublishers()
     }
     else
     {
-      ROS_ERROR_STREAM(calib_status_sub_.getTopic() << " has no publisher");
+      ROS_WARN_STREAM(calib_status_sub_.getTopic() << " has no publisher");
       sleep(1);
     }
   }
@@ -174,7 +174,7 @@ void EnsensoPanel::connectToServicesSubscribersPublishers()
     }
     else
     {
-      ROS_ERROR_STREAM(reset_calib_pub_.getTopic() << " has no subscriber");
+      ROS_WARN_STREAM(reset_calib_pub_.getTopic() << " has no subscriber");
       sleep(1);
     }
   }
