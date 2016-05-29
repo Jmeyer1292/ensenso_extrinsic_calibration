@@ -151,8 +151,8 @@ Eigen::Affine3d generateRandomHemispherePose(const Eigen::Vector3d &obj_origin, 
  * @param res[out]
  * @return Always true
  */
-bool performCalibration(grinding_ensenso_extrinsic_calibration::PerformEnsensoCalibration::Request &req,
-                        grinding_ensenso_extrinsic_calibration::PerformEnsensoCalibration::Response &res)
+bool performCalibration(ur10_ensenso_extrinsic_calibration::PerformEnsensoCalibration::Request &req,
+                        ur10_ensenso_extrinsic_calibration::PerformEnsensoCalibration::Response &res)
 {
   // Get parameters from the message
   const unsigned int number_of_poses(req.number_of_poses);
@@ -359,8 +359,8 @@ void resetCalibration(const std_msgs::String::ConstPtr& msg)
  * @param res[out]
  * @return Always true
  */
-bool testCalibration(grinding_ensenso_extrinsic_calibration::TestEnsensoCalibration::Request &req,
-                     grinding_ensenso_extrinsic_calibration::TestEnsensoCalibration::Response &res)
+bool testCalibration(ur10_ensenso_extrinsic_calibration::TestEnsensoCalibration::Request &req,
+                     ur10_ensenso_extrinsic_calibration::TestEnsensoCalibration::Response &res)
 {
   // Get parameters from the message
   const unsigned int number_of_poses(req.number_of_poses);
