@@ -23,8 +23,8 @@
 #include <pcl/io/ensenso_grabber.h>
 
 // Service descriptions
-#include <grinding_ensenso_extrinsic_calibration/PerformEnsensoCalibration.h>
-#include <grinding_ensenso_extrinsic_calibration/TestEnsensoCalibration.h>
+#include <ur10_ensenso_extrinsic_calibration/PerformEnsensoCalibration.h>
+#include <ur10_ensenso_extrinsic_calibration/TestEnsensoCalibration.h>
 
 // TODO: Things you MUST tweak if you change the robot description
 /** Name of the move_group used to move the robot during calibration */
