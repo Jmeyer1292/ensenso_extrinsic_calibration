@@ -1,5 +1,5 @@
-#ifndef TELEOP_PANEL_H
-#define TELEOP_PANEL_H
+#ifndef ENSENSO_PANEL_H
+#define ENSENSO_PANEL_H
 
 #ifndef Q_MOC_RUN
 #include <ros/ros.h>
