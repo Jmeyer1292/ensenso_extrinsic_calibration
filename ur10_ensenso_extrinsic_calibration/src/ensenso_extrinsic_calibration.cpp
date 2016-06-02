@@ -243,9 +243,16 @@ bool performCalibration(ur10_ensenso_extrinsic_calibration::PerformEnsensoCalibr
       // Go back to initial pose (if possible)
       tf::poseEigenToMsg(initial_pose, way_points_msg[0]);
       listener.waitForTransform("/base", tcp_name, ros::Time::now(), ros::Duration(1.5));
-      if (group->computeCartesianPath(way_points_msg, 0.05, 0, srv.request.trajectory) > 0.5)
-        executeKnownTrajectoryServiceClient.call(srv);
 
+      if (group->computeCartesianPath(way_points_msg, 0.05, 0, srv.request.trajectory) > 0.5)
+      {
+        for (unsigned i = 0; i < srv.request.trajectory.joint_trajectory.points.size(); ++i)
+        {
+          for (unsigned j = 0; j < 6; ++j)
+            srv.request.trajectory.joint_trajectory.points[i].velocities.push_back(0.5);
+        }
+        executeKnownTrajectoryServiceClient.call(srv);
+      }
       return true;
     }
 
@@ -263,6 +270,12 @@ bool performCalibration(ur10_ensenso_extrinsic_calibration::PerformEnsensoCalibr
     ss << robot_poses.size() << " of " << number_of_poses << " data acquired";
     status.data = ss.str();
     status_pub->publish(status);
+
+    for (unsigned i = 0; i < srv.request.trajectory.joint_trajectory.points.size(); ++i)
+    {
+      for (unsigned j = 0; j < 6; ++j)
+        srv.request.trajectory.joint_trajectory.points[i].velocities.push_back(0.5);
+    }
     executeKnownTrajectoryServiceClient.call(srv);
     ensenso->stop();
     sleep(1); // Sleep time: the robot might oscillate little bit after moving
@@ -301,7 +314,14 @@ bool performCalibration(ur10_ensenso_extrinsic_calibration::PerformEnsensoCalibr
   tf::poseEigenToMsg(initial_pose, way_points_msg[0]);
   listener.waitForTransform("/base", tcp_name, ros::Time::now(), ros::Duration(1.5));
   if (group->computeCartesianPath(way_points_msg, 0.05, 0, srv.request.trajectory) > 0.95)
+  {
+    for (unsigned i = 0; i < srv.request.trajectory.joint_trajectory.points.size(); ++i)
+    {
+      for (unsigned j = 0; j < 6; ++j)
+        srv.request.trajectory.joint_trajectory.points[i].velocities.push_back(0.5);
+    }
     executeKnownTrajectoryServiceClient.call(srv);
+  }
 
   // Compute calibration matrix
   // TODO: Add guess calibration support
@@ -459,6 +479,12 @@ bool testCalibration(ur10_ensenso_extrinsic_calibration::TestEnsensoCalibration:
       failed_count++;
       continue;
     }
+
+    for (unsigned i = 0; i < srv.request.trajectory.joint_trajectory.points.size(); ++i)
+    {
+      for (unsigned j = 0; j < 6; ++j)
+        srv.request.trajectory.joint_trajectory.points[i].velocities.push_back(0.5);
+    }
     executeKnownTrajectoryServiceClient.call(srv);
 
     try // Collect robot pose in tool0 frame
@@ -510,12 +536,19 @@ bool testCalibration(ur10_ensenso_extrinsic_calibration::TestEnsensoCalibration:
   }
 
   // Go back to initial pose (if possible)
-  status.data = "Moving robot to initial pose";
-  status_pub->publish(status);
   tf::poseEigenToMsg(initial_pose, way_points_msg[0]);
   listener.waitForTransform("/base", tcp_name, ros::Time::now(), ros::Duration(1.5));
   if (group->computeCartesianPath(way_points_msg, 0.05, 0, srv.request.trajectory) > 0.95)
+  {
+    for (unsigned i = 0; i < srv.request.trajectory.joint_trajectory.points.size(); ++i)
+    {
+      for (unsigned j = 0; j < 6; ++j)
+        srv.request.trajectory.joint_trajectory.points[i].velocities.push_back(0.5);
+    }
+    status.data = "Moving robot to initial pose";
+    status_pub->publish(status);
     executeKnownTrajectoryServiceClient.call(srv);
+  }
 
   // Transform / color point clouds and stack them into one point cloud
   // FIXME: This code will EASILY crash on a machine with available low memory (or many data are asked from the user)
