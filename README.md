@@ -48,6 +48,11 @@ cd .. &&\
 catkin_make
 ```
 
+Generating a target
+-------------------
+If you didn't purchase a calibration target you can generate one and print it.
+Use the `nxCalTab` program to generate a PDF and print it, make sure the scale is right!
+
 Launching
 ---------
 Refer to the [tutorial](documentation/tutorial.md).
