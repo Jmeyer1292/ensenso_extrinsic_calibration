@@ -27,7 +27,7 @@ EnsensoPanel::EnsensoPanel(QWidget* parent) :
   QHBoxLayout* calib_pose_count_layout = new QHBoxLayout;
   calib_pose_count_layout->addWidget(new QLabel("Number of poses:"));
   number_of_poses_ = new QSpinBox;
-  number_of_poses_->setMinimum(2);
+  number_of_poses_->setMinimum(1);
   number_of_poses_->setMaximum(30); // More would really be useless
   number_of_poses_->setValue(10);
   calib_pose_count_layout->addWidget(number_of_poses_);
@@ -54,14 +54,17 @@ EnsensoPanel::EnsensoPanel(QWidget* parent) :
   store_to_eeprom_ = new QCheckBox;
   store_to_eeprom_->setText("Store calibration matrix to EEPROM");
   store_to_eeprom_->setChecked(true);
+  store_to_eeprom_->setEnabled(false);
 
   QHBoxLayout* start_erase_layout = new QHBoxLayout;
   start_calibration_ = new QPushButton("Start calibration");
   reset_calibration_ = new QPushButton("Erase calibration (EEPROM)");
+  reset_calibration_->setEnabled(false);
   start_erase_layout->addWidget(start_calibration_);
   start_erase_layout->addWidget(reset_calibration_);
 
   test_calibration_ = new QPushButton ("Test calibration");
+  test_calibration_->setEnabled(false);
 
   QVBoxLayout* status_layout = new QVBoxLayout;
   status_layout->addWidget(new QLabel ("Status:"));
@@ -191,7 +194,7 @@ void EnsensoPanel::enablePanelHandler(bool enable)
 
 void EnsensoPanel::startCalibrationButtonHandler()
 {
-  if (number_of_poses_->value() < 5)
+  if (number_of_poses_->value() < 1)
   {
     QMessageBox msgBox;
     msgBox.setWindowTitle("Number of poses is too small");

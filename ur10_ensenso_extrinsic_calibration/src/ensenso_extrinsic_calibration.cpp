@@ -28,6 +28,7 @@
 
 // TODO: Things you MUST tweak if you change the robot description
 /** Name of the move_group used to move the robot during calibration */
+//const std::string move_group_name("manipulator");
 const std::string move_group_name("ensenso_n10");
 /** Name of the TCP that should be used to compute the trajectories */
 const std::string tcp_name("/ensenso_tcp");
@@ -160,11 +161,13 @@ bool performCalibration(ur10_ensenso_extrinsic_calibration::PerformEnsensoCalibr
   const float calibration_plate_distance(req.calibration_plate_distance);
   const bool store_to_eeprom(req.store_to_EEPROM);
 
+/*
   // Setup Ensenso
   ensenso->stop();
   ensenso->clearCalibrationPatternBuffer(); // In case a previous calibration was launched!
   ensenso->initExtrinsicCalibration(grid_spacing);
   ensenso->start();
+*/
 
   // Get initial (current) pose where the pattern is visible
   tf::TransformListener listener;
@@ -256,7 +259,7 @@ bool performCalibration(ur10_ensenso_extrinsic_calibration::PerformEnsensoCalibr
       return true;
     }
 
-    ensenso->start();
+//    ensenso->start();
     tf::poseEigenToMsg(generateRandomHemispherePose(obj_origin, tool_origin), way_points_msg[0]);
     listener.waitForTransform("/base", tcp_name, ros::Time::now(), ros::Duration(1.5));
     if (group->computeCartesianPath(way_points_msg, 0.05, 0, srv.request.trajectory) < 0.95)
@@ -277,15 +280,16 @@ bool performCalibration(ur10_ensenso_extrinsic_calibration::PerformEnsensoCalibr
         srv.request.trajectory.joint_trajectory.points[i].velocities.push_back(0.5);
     }
     executeKnownTrajectoryServiceClient.call(srv);
-    ensenso->stop();
+//    ensenso->stop();
     sleep(1); // Sleep time: the robot might oscillate little bit after moving
+/*
     if (ensenso->captureCalibrationPattern() == -1)
     {
       ROS_WARN_STREAM("Failed to capture calibration pattern: skipping to next pose");
       failed_count++;
       continue;
     }
-
+*/
     try // Collect robot pose in tool tool0 frame
     {
       ros::Time now(ros::Time::now());
@@ -328,7 +332,7 @@ bool performCalibration(ur10_ensenso_extrinsic_calibration::PerformEnsensoCalibr
   status.data = "Computing calibration matrix...";
   status_pub->publish(status);
   std::string result;
-
+/*
   if (!ensenso->computeCalibrationMatrix(robot_poses, result, "Moving", "Hand"))
   {
     status.data = "Failed to compute calibration";
@@ -349,6 +353,7 @@ bool performCalibration(ur10_ensenso_extrinsic_calibration::PerformEnsensoCalibr
 
   ensenso->start();
   status_pub->publish(status);
+*/
   res.return_status = true;
   res.return_message = result;
   return true;
@@ -360,6 +365,7 @@ bool performCalibration(ur10_ensenso_extrinsic_calibration::PerformEnsensoCalibr
  */
 void resetCalibration(const std_msgs::String::ConstPtr& msg)
 {
+/*
   ensenso->stop();
   std_msgs::String status;
   if (!ensenso->clearEEPROMExtrinsicCalibration())
@@ -371,6 +377,7 @@ void resetCalibration(const std_msgs::String::ConstPtr& msg)
   ensenso->start();
   status.data = "Extrinsic calibration reset into EEPROM";
   status_pub->publish(status);
+*/
 }
 
 /**
@@ -385,7 +392,7 @@ bool testCalibration(ur10_ensenso_extrinsic_calibration::TestEnsensoCalibration:
   // Get parameters from the message
   const unsigned int number_of_poses(req.number_of_poses);
   const float calibration_plate_distance(req.calibration_plate_distance);
-  ensenso->stop();
+//  ensenso->stop();
 
   // Delete calibration plate marker
   plate_marker.header.stamp = ros::Time::now();
@@ -508,6 +515,7 @@ bool testCalibration(ur10_ensenso_extrinsic_calibration::TestEnsensoCalibration:
     sleep(1); // Sleep time: the robot might oscillate little bit after moving
     PointCloudXYZ::Ptr cloud(new PointCloudXYZ);
     clouds.push_back(cloud);
+/*
     if (!ensenso->grabSingleCloud(*clouds[robot_poses.size() - 1]))
     {
       status.data = "Could not capture point cloud";
@@ -516,7 +524,7 @@ bool testCalibration(ur10_ensenso_extrinsic_calibration::TestEnsensoCalibration:
       res.return_status = false;
       return true;
     }
-
+*/
     std::stringstream ss;
     ss << robot_poses.size() << " of " << number_of_poses << " point clouds acquired";
     status.data = ss.str();
@@ -658,11 +666,12 @@ int main(int argc, char **argv)
   group->setPlanningTime(2);
 
   // Initialize Ensenso
+/*
   ensenso.reset(new pcl::EnsensoGrabber);
   ensenso->openDevice(0);
   ensenso->openTcpPort();
   ensenso->configureCapture(true, true, 1, 0.32, true, 1, false, false, false, 10, false); // Disable front light projector, enable IR led light
-
+*/
   l_image_pub.reset(new ros::Publisher);
   r_image_pub.reset(new ros::Publisher);
   *l_image_pub = node->advertise<sensor_msgs::Image>("ensenso_l_image", 2);
@@ -671,10 +680,12 @@ int main(int argc, char **argv)
   calib_test_cloud_pub.reset(new ros::Publisher);
   *calib_test_cloud_pub = node->advertise<sensor_msgs::PointCloud2>("calib_test_cloud", 2, true); // Latched
 
+/*
   // Register Ensenso callback and start it
   boost::function<void(const boost::shared_ptr<PairOfImages>&)> f = boost::bind(&ensensoGrabberCallback, _1);
   ensenso->registerCallback(f);
   ensenso->start();
+*/
 
   // Spin
   ros::AsyncSpinner spinner(1);
@@ -683,8 +694,9 @@ int main(int argc, char **argv)
   while (node->ok())
   {
   }
-
+/*
   ensenso->closeTcpPort();
   ensenso->closeDevice();
+*/
   return 0;
 }
