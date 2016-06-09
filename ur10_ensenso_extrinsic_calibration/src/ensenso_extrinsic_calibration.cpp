@@ -32,6 +32,8 @@
 const std::string move_group_name("ensenso_n10");
 /** Name of the TCP that should be used to compute the trajectories */
 const std::string tcp_name("/ensenso_tcp");
+/** Robot axis velocities, rad/sec */
+const double velocity(0.05);
 // TODO end
 
 /** Pair of PCL images */
@@ -252,7 +254,7 @@ bool performCalibration(ur10_ensenso_extrinsic_calibration::PerformEnsensoCalibr
         for (unsigned i = 0; i < srv.request.trajectory.joint_trajectory.points.size(); ++i)
         {
           for (unsigned j = 0; j < 6; ++j)
-            srv.request.trajectory.joint_trajectory.points[i].velocities.push_back(0.5);
+            srv.request.trajectory.joint_trajectory.points[i].velocities.push_back(velocity);
         }
         executeKnownTrajectoryServiceClient.call(srv);
       }
@@ -277,7 +279,7 @@ bool performCalibration(ur10_ensenso_extrinsic_calibration::PerformEnsensoCalibr
     for (unsigned i = 0; i < srv.request.trajectory.joint_trajectory.points.size(); ++i)
     {
       for (unsigned j = 0; j < 6; ++j)
-        srv.request.trajectory.joint_trajectory.points[i].velocities.push_back(0.5);
+        srv.request.trajectory.joint_trajectory.points[i].velocities.push_back(velocity);
     }
     executeKnownTrajectoryServiceClient.call(srv);
 //    ensenso->stop();
@@ -322,7 +324,7 @@ bool performCalibration(ur10_ensenso_extrinsic_calibration::PerformEnsensoCalibr
     for (unsigned i = 0; i < srv.request.trajectory.joint_trajectory.points.size(); ++i)
     {
       for (unsigned j = 0; j < 6; ++j)
-        srv.request.trajectory.joint_trajectory.points[i].velocities.push_back(0.5);
+        srv.request.trajectory.joint_trajectory.points[i].velocities.push_back(velocity);
     }
     executeKnownTrajectoryServiceClient.call(srv);
   }
@@ -490,7 +492,7 @@ bool testCalibration(ur10_ensenso_extrinsic_calibration::TestEnsensoCalibration:
     for (unsigned i = 0; i < srv.request.trajectory.joint_trajectory.points.size(); ++i)
     {
       for (unsigned j = 0; j < 6; ++j)
-        srv.request.trajectory.joint_trajectory.points[i].velocities.push_back(0.5);
+        srv.request.trajectory.joint_trajectory.points[i].velocities.push_back(velocity);
     }
     executeKnownTrajectoryServiceClient.call(srv);
 
@@ -551,7 +553,7 @@ bool testCalibration(ur10_ensenso_extrinsic_calibration::TestEnsensoCalibration:
     for (unsigned i = 0; i < srv.request.trajectory.joint_trajectory.points.size(); ++i)
     {
       for (unsigned j = 0; j < 6; ++j)
-        srv.request.trajectory.joint_trajectory.points[i].velocities.push_back(0.5);
+        srv.request.trajectory.joint_trajectory.points[i].velocities.push_back(velocity);
     }
     status.data = "Moving robot to initial pose";
     status_pub->publish(status);
