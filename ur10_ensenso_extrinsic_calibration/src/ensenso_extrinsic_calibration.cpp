@@ -23,8 +23,8 @@
 #include <pcl/io/ensenso_grabber.h>
 
 // Service descriptions
-#include <ur10_ensenso_extrinsic_calibration/PerformEnsensoCalibration.h>
-#include <ur10_ensenso_extrinsic_calibration/TestEnsensoCalibration.h>
+#include <ensenso_rviz_plugin/PerformEnsensoCalibration.h>
+#include <ensenso_rviz_plugin/TestEnsensoCalibration.h>
 
 // TODO: Things you MUST tweak if you change the robot description
 /** Name of the move_group used to move the robot during calibration */
@@ -151,8 +151,8 @@ Eigen::Affine3d generateRandomHemispherePose(const Eigen::Vector3d &obj_origin, 
  * @param res[out]
  * @return Always true
  */
-bool performCalibration(ur10_ensenso_extrinsic_calibration::PerformEnsensoCalibration::Request &req,
-                        ur10_ensenso_extrinsic_calibration::PerformEnsensoCalibration::Response &res)
+bool performCalibration(ensenso_rviz_plugin::PerformEnsensoCalibration::Request &req,
+                        ensenso_rviz_plugin::PerformEnsensoCalibration::Response &res)
 {
   // Get parameters from the message
   const unsigned int number_of_poses(req.number_of_poses);
@@ -379,8 +379,8 @@ void resetCalibration(const std_msgs::String::ConstPtr& msg)
  * @param res[out]
  * @return Always true
  */
-bool testCalibration(ur10_ensenso_extrinsic_calibration::TestEnsensoCalibration::Request &req,
-                     ur10_ensenso_extrinsic_calibration::TestEnsensoCalibration::Response &res)
+bool testCalibration(ensenso_rviz_plugin::TestEnsensoCalibration::Request &req,
+                     ensenso_rviz_plugin::TestEnsensoCalibration::Response &res)
 {
   // Get parameters from the message
   const unsigned int number_of_poses(req.number_of_poses);

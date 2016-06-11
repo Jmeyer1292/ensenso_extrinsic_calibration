@@ -3,7 +3,6 @@ project(ur10_ensenso_extrinsic_calibration)
 
 find_package(catkin REQUIRED COMPONENTS
              cv_bridge
-             message_generation
              moveit_ros_planning_interface
              pcl_ros
              roscpp
@@ -13,13 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
 
 find_package(PCL 1.8.0 REQUIRED)
 
-add_service_files(FILES PerformEnsensoCalibration.srv
-                        TestEnsensoCalibration.srv)
-generate_messages(DEPENDENCIES std_msgs)
-
-catkin_package(
-  CATKIN_DEPENDS message_runtime std_msgs
-)
+catkin_package()
 
 include_directories(${PCL_INCLUDE_DIRS} ${catkin_INCLUDE_DIRS}) # Order matters!
 add_definitions(${PCL_DEFINITIONS})
@@ -27,7 +20,7 @@ add_definitions(${PCL_DEFINITIONS})
 add_executable(${PROJECT_NAME} src/ensenso_extrinsic_calibration.cpp)
 set_property(TARGET ${PROJECT_NAME} APPEND_STRING PROPERTY COMPILE_FLAGS -Wall)
 target_link_libraries(${PROJECT_NAME} ${PCL_LIBRARIES} ${catkin_LIBRARIES})
-add_dependencies(${PROJECT_NAME} ${PROJECT_NAME}_generate_messages_cpp)
+add_dependencies(${PROJECT_NAME} ensenso_rviz_plugin_generate_messages_cpp)
 
 install(TARGETS
   ${PROJECT_NAME}

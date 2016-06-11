@@ -9,8 +9,8 @@
 #include <rviz/panel.h>
 #endif
 
-#include <grinding_ensenso_extrinsic_calibration/PerformEnsensoCalibration.h> // Forward declaration impossible
-#include <grinding_ensenso_extrinsic_calibration/TestEnsensoCalibration.h>
+#include <ensenso_rviz_plugin/PerformEnsensoCalibration.h> // Forward declaration impossible
+#include <ensenso_rviz_plugin/TestEnsensoCalibration.h>
 
 class QDoubleSpinBox;
 class QSpinBox;
@@ -112,9 +112,9 @@ protected:
   /** Test calibration service client */
   ros::ServiceClient test_client_;
   /** PerformEnsensoCalibration service */
-  grinding_ensenso_extrinsic_calibration::PerformEnsensoCalibration perform_calib_srv_;
+  ensenso_rviz_plugin::PerformEnsensoCalibration perform_calib_srv_;
   /** TestEnsensoCalibration service */
-  grinding_ensenso_extrinsic_calibration::TestEnsensoCalibration test_calib_srv_;
+  ensenso_rviz_plugin::TestEnsensoCalibration test_calib_srv_;
   /** Calibration status subscriber */
   ros::Subscriber calib_status_sub_;
   /** Reset calibration publisher */
