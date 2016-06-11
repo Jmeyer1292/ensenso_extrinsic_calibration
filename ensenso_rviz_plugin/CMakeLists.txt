@@ -2,10 +2,16 @@ cmake_minimum_required(VERSION 2.8.3)
 project(ensenso_rviz_plugin)
 
 find_package(catkin REQUIRED COMPONENTS
-             grinding_ensenso_extrinsic_calibration
-             rviz)
+             message_generation
+             rviz
+             std_msgs)
 
-catkin_package()
+add_service_files(FILES PerformEnsensoCalibration.srv
+                        TestEnsensoCalibration.srv)
+generate_messages(DEPENDENCIES std_msgs)
+
+catkin_package(CATKIN_DEPENDS message_runtime
+                              std_msgs)
 
 include_directories(${catkin_INCLUDE_DIRS})
 
@@ -26,7 +32,7 @@ set(SOURCE_FILES
 add_library(${PROJECT_NAME} ${SOURCE_FILES})
 set_property(TARGET ${PROJECT_NAME} APPEND_STRING PROPERTY COMPILE_FLAGS -Wall)
 target_link_libraries(${PROJECT_NAME} ${QT_LIBRARIES} ${catkin_LIBRARIES})
-add_dependencies(${PROJECT_NAME} grinding_ensenso_extrinsic_calibration_generate_messages_cpp)
+add_dependencies(${PROJECT_NAME} ${PROJECT_NAME}_generate_messages_cpp)
 
 install(TARGETS
   ${PROJECT_NAME}

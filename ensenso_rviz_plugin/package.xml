@@ -9,11 +9,14 @@
 
   <buildtool_depend>catkin</buildtool_depend>
 
+  <build_depend>message_generation</build_depend>
   <build_depend>rviz</build_depend>
-  <build_depend>grinding_ensenso_extrinsic_calibration</build_depend>
+  <build_depend>std_msgs</build_depend>
 
+  <exec_depend>message_runtime</exec_depend>
   <exec_depend>rviz</exec_depend>
-  <exec_depend>grinding_ensenso_extrinsic_calibration</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+
   <export>
       <rviz plugin="${prefix}/plugin_description.xml"/>
   </export>

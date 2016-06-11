@@ -15,8 +15,8 @@
 
 #include "ensenso_panel.h"
 #include <ros/publisher.h>
-#include <grinding_ensenso_extrinsic_calibration/PerformEnsensoCalibration.h>
-#include <grinding_ensenso_extrinsic_calibration/TestEnsensoCalibration.h>
+#include <ensenso_rviz_plugin/PerformEnsensoCalibration.h>
+#include <ensenso_rviz_plugin/TestEnsensoCalibration.h>
 
 namespace ensenso_rviz_plugin
 {
@@ -99,8 +99,8 @@ EnsensoPanel::EnsensoPanel(QWidget* parent) :
   // Setup publishers
   reset_calib_pub_ = nh_.advertise<std_msgs::String>("reset_ensenso_calibration", 1);
   // Setup clients
-  calib_client_ = nh_.serviceClient<grinding_ensenso_extrinsic_calibration::PerformEnsensoCalibration>("perform_ensenso_calibration");
-  test_client_ = nh_.serviceClient<grinding_ensenso_extrinsic_calibration::TestEnsensoCalibration>("test_ensenso_calibration");
+  calib_client_ = nh_.serviceClient<ensenso_rviz_plugin::PerformEnsensoCalibration>("perform_ensenso_calibration");
+  test_client_ = nh_.serviceClient<ensenso_rviz_plugin::TestEnsensoCalibration>("test_ensenso_calibration");
   QFuture<void> future = QtConcurrent::run(this, &EnsensoPanel::connectToServicesSubscribersPublishers); // Launch in it's own thread
 }
 
