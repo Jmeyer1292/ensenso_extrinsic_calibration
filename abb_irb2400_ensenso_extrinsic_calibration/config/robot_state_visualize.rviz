@@ -6,7 +6,7 @@ Panels:
       Expanded:
         - /TF1/Frames1
       Splitter Ratio: 0.5
-    Tree Height: 415
+    Tree Height: 410
   - Class: rviz/Selection
     Name: Selection
   - Class: rviz/Tool Properties
@@ -27,9 +27,9 @@ Panels:
     SyncSource: Image
   - Class: ensenso_rviz_plugin/Ensenso
     Name: Ensenso
-    calibration_plate_distance: 254
-    grid_spacing: 18.75
-    number_of_poses: 12
+    calibration_plate_distance: 290
+    grid_spacing: 5
+    number_of_poses: 8
     store_to_eeprom: true
 Visualization Manager:
   Class: ""
@@ -71,77 +71,64 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        chuck_tip_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        eff_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        ensenso_sensor_optical_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        gripper_body:
+        ee_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        keyence_sensor_optical_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        keyence_tcp_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        kinect2_move_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        link_1:
+        ensenso_n10_frame:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        link_2:
+        ensenso_tcp:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        excelcar_workcell_frame:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        link_3:
+        forearm_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        link_4:
+        mounting_plate_base_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        link_5:
+        shoulder_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        link_6:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        tcp_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
         tool0:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        world_frame:
+        upper_arm_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
+          Value: true
+        wrist_1_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        wrist_2_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        wrist_3_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
       Name: RobotModel
       Robot Description: robot_description
       TF Prefix: ""
@@ -252,34 +239,34 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 1.46572
+      Distance: 3.08395
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.913579
-        Y: 0.0132539
-        Z: -0.140279
+        X: 0.0473675
+        Y: 0.833019
+        Z: -0.297315
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.139797
+      Pitch: 0.565399
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 1.44038
+      Yaw: 2.11355
     Saved: ~
 Window Geometry:
   Displays:
     collapsed: false
   Ensenso:
     collapsed: false
-  Height: 960
+  Height: 1021
   Hide Left Dock: false
   Hide Right Dock: true
   Image:
     collapsed: false
-  QMainWindow State: 000000ff00000000fd0000000400000000000001bd0000037afc0200000007fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000006400fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afc00000028000001460000012f0100001dfa000000000100000002fb0000000e0045006e00730065006e0073006f0100000000ffffffff0000016000fffffffb000000100044006900730070006c0061007900730100000000000002120000016a00fffffffb0000000a0049006d0061006700650100000174000001100000001600fffffffb0000000a0049006d006100670065010000028a000001180000001600ffffff000000010000010f000003dafc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a005600690065007700730000000028000003da000000b000fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e100000197000000030000073f00000184fc0100000002fb0000000800540069006d00650000000000000004a0000002f600fffffffb0000000800540069006d00650100000000000004500000000000000000000002bc0000037a00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd000000040000000000000185000003b4fc0200000007fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000006600fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afc00000028000001d50000014c01000020fa000000000100000002fb0000000e0045006e00730065006e0073006f0100000000ffffffff0000018500fffffffb000000100044006900730070006c0061007900730100000000000002120000017000fffffffb0000000a0049006d0061006700650100000203000000ea0000001800fffffffb0000000a0049006d00610067006501000002f3000000e90000001800ffffff000000010000010f000003dafc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a005600690065007700730000000028000003da000000b800fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e100000197000000030000073f00000184fc0100000002fb0000000800540069006d00650000000000000004a00000034300fffffffb0000000800540069006d0065010000000000000450000000000000000000000210000003b400000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Selection:
     collapsed: false
   Time:
@@ -288,6 +275,6 @@ Window Geometry:
     collapsed: false
   Views:
     collapsed: true
-  Width: 1151
-  X: 55
-  Y: 14
+  Width: 923
+  X: 974
+  Y: 16
