@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(ensenso_rviz_plugin)
+#add_definitions( -std=c++11 )
 
 find_package(catkin REQUIRED COMPONENTS
              message_generation
@@ -15,12 +16,12 @@ catkin_package(CATKIN_DEPENDS message_runtime
 
 include_directories(${catkin_INCLUDE_DIRS})
 
-find_package(Qt4 COMPONENTS QtCore QtGui REQUIRED)
-include(${QT_USE_FILE})
+find_package(Qt5 COMPONENTS Core Widgets Concurrent REQUIRED)
+#include(${QT_USE_FILE})
 
 add_definitions(-DQT_NO_KEYWORDS)
 
-qt4_wrap_cpp(MOC_FILES
+qt5_wrap_cpp(MOC_FILES
   src/ensenso_panel.h
 )
 
@@ -31,7 +32,7 @@ set(SOURCE_FILES
 
 add_library(${PROJECT_NAME} ${SOURCE_FILES})
 set_property(TARGET ${PROJECT_NAME} APPEND_STRING PROPERTY COMPILE_FLAGS -Wall)
-target_link_libraries(${PROJECT_NAME} ${QT_LIBRARIES} ${catkin_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} ${QT_LIBRARIES} ${catkin_LIBRARIES} Qt5::Widgets Qt5::Core Qt5::Concurrent)
 add_dependencies(${PROJECT_NAME} ${PROJECT_NAME}_generate_messages_cpp)
 
 install(TARGETS
