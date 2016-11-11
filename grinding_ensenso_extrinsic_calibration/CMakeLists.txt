@@ -8,7 +8,8 @@ find_package(catkin REQUIRED COMPONENTS
              roscpp
              std_msgs
              tf tf_conversions
-             visualization_msgs)
+             visualization_msgs
+             ensenso_rviz_plugin)
 
 find_package(PCL 1.8.0 REQUIRED)
 
