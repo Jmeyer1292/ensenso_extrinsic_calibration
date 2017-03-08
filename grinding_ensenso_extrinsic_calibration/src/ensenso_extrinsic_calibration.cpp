@@ -11,7 +11,7 @@
 #include <tf/transform_listener.h>
 #include <tf_conversions/tf_eigen.h>
 #include <eigen_conversions/eigen_msg.h>
-#include <moveit/move_group_interface/move_group.h>
+#include <moveit/move_group_interface/move_group_interface.h>
 #include <moveit/planning_interface/planning_interface.h>
 #include <moveit_msgs/ExecuteKnownTrajectory.h>
 #include <cv_bridge/cv_bridge.h>
@@ -46,7 +46,7 @@ typedef pcl::PointCloud<PointXYZ> PointCloudXYZ;
 boost::shared_ptr<ros::NodeHandle> node;
 
 /** Pointer to the move group */
-boost::shared_ptr<move_group_interface::MoveGroup> group;
+boost::shared_ptr<moveit::planning_interface::MoveGroupInterface> group;
 
 /** Calibration status publisher */
 boost::shared_ptr<ros::Publisher> status_pub;
@@ -620,7 +620,7 @@ int main(int argc, char **argv)
   plate_marker.lifetime = ros::Duration();
 
   // Initialize move group
-  group.reset(new move_group_interface::MoveGroup(move_group_name));
+  group.reset(new moveit::planning_interface::MoveGroupInterface(move_group_name));
   group->setPoseReferenceFrame("/base");
   group->setPlanningTime(2);
 
