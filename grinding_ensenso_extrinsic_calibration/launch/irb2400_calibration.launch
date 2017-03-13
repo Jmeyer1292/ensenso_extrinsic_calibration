@@ -8,7 +8,7 @@
            controller_joint_names: [joint_1, joint_2, ... joint_N] 
        - Update with joint names for your robot (in order expected by rbt controller)
        - and uncomment the following line: -->
-  <rosparam command="load" file="$(find fanuc_r1000ia_support)/config/joint_names_r1000ia80f.yaml" />
+  <rosparam command="load" file="$(find abb_irb2400_support)/config/joint_names_irb2400.yaml" />
   <rosparam param="initial_joint_state">[0.0, 0.6, -0.6, 0.0, -0.8, 0.0]</rosparam>
 
   <!-- the "sim" argument controls whether we connect to a Simulated or Real robot -->
@@ -16,9 +16,10 @@
   <arg name="sim" default="true" />
   <arg name="robot_ip" unless="$(arg sim)" />
   <arg name="use_bswap" unless="$(arg sim)" default="true" />
+  <arg name="debug_mode" default="false"/>
 
   <!-- load the robot_description parameter before launching ROS-I nodes -->
-  <include file="$(find fanuc_r1000ia_ensenso_n10_grinding_moveit_config)/launch/planning_context.launch" >
+  <include file="$(find godel_irb2400_moveit_config)/launch/planning_context.launch" >
     <arg name="load_robot_description" value="true" />
   </include>
 
@@ -31,20 +32,31 @@
   <!--   - this typically includes: robot_state, motion_interface, and joint_trajectory_action nodes -->
   <!--   - replace these calls with appropriate robot-specific calls or launch files -->
   <group unless="$(arg sim)">
-    <include file="$(find fanuc_r1000ia_support)/launch/robot_interface_streaming_r1000ia80f.launch" >
+    <include file="$(find godel_irb2400_moveit_config)/launch/irb2400_robot_ftp_interface.launch">
       <arg name="robot_ip" value="$(arg robot_ip)"/>
-      <arg name="use_bswap"  value="$(arg use_bswap)" />
+      <arg name="J23_coupled" value="true"/>
     </include>
   </group>
 
   <!-- publish the robot state (tf transforms) -->
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
 
-  <include file="$(find fanuc_r1000ia_ensenso_n10_grinding_moveit_config)/launch/move_group.launch">
+  <include file="$(find godel_irb2400_moveit_config)/launch/move_group.launch">
     <arg name="publish_monitored_planning_scene" value="true" />
   </include>
 
   <node name="grinding_ensenso_extrinsic_calibration" pkg="grinding_ensenso_extrinsic_calibration" type="grinding_ensenso_extrinsic_calibration" output="screen" required="true" />
-  <include file="$(find fanuc_r1000ia_ensenso_n10_grinding_support)/launch/load_r1000ia_grinding.launch" />
-  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find grinding_ensenso_extrinsic_calibration)/config/robot_state_visualize.rviz" required="true" />
+  
+  <!-- <include file="$(find fanuc_r1000ia_ensenso_n10_grinding_support)/launch/load_r1000ia_grinding.launch" /> -->
+
+  <param name="robot_description" command="$(find xacro)/xacro.py '$(find godel_irb2400_support)/urdf/irb2400_workspace.xacro'" />
+
+  <group if="$(arg debug_mode)">
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find grinding_ensenso_extrinsic_calibration)/config/robot_state_visualize.rviz" launch-prefix="xterm -e gdb --args" required="true" />
+  </group>
+
+  <!-- rviz w/ specified configuration -->
+  <group unless="$(arg debug_mode)">
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find grinding_ensenso_extrinsic_calibration)/config/robot_state_visualize.rviz" required="true" />
+  </group>
 </launch>
