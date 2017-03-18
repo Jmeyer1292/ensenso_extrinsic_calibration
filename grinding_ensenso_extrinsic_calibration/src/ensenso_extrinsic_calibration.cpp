@@ -244,7 +244,8 @@ bool performCalibration(ensenso_rviz_plugin::PerformEnsensoCalibration::Request 
       tf::poseEigenToMsg(initial_pose, way_points_msg[0]);
       listener.waitForTransform("/base", tcp_name, ros::Time::now(), ros::Duration(1.5));
       if (group->computeCartesianPath(way_points_msg, 0.05, 0, srv.request.trajectory) > 0.5)
-        executeKnownTrajectoryServiceClient.call(srv);
+        if (!executeKnownTrajectoryServiceClient.call(srv))
+          ROS_WARN_STREAM("Unable to execute trajectory:\n" << srv.response);
 
       return true;
     }
@@ -301,7 +302,8 @@ bool performCalibration(ensenso_rviz_plugin::PerformEnsensoCalibration::Request 
   tf::poseEigenToMsg(initial_pose, way_points_msg[0]);
   listener.waitForTransform("/base", tcp_name, ros::Time::now(), ros::Duration(1.5));
   if (group->computeCartesianPath(way_points_msg, 0.05, 0, srv.request.trajectory) > 0.95)
-    executeKnownTrajectoryServiceClient.call(srv);
+    if (!executeKnownTrajectoryServiceClient.call(srv))
+      ROS_WARN_STREAM("Unable to execute trajectory2\n" << srv.response);
 
   // Compute calibration matrix
   // TODO: Add guess calibration support
