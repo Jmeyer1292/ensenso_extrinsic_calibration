@@ -142,6 +142,13 @@ Eigen::Affine3d generateRandomHemispherePose(const Eigen::Vector3d &obj_origin, 
   pose.matrix().col(1) << y_axis, 0;
   pose.matrix().col(2) << z_axis, 0;
   pose.translation() = point;
+
+  double dz = rand() % 60 - 30;
+
+  Eigen::AngleAxisd z_rot (dz, Eigen::Vector3d::UnitZ());
+
+  pose = pose * z_rot;
+
   return pose;
 }
 
@@ -281,6 +288,7 @@ bool performCalibration(ensenso_rviz_plugin::PerformEnsensoCalibration::Request 
       listener.lookupTransform("/base", "/tool0", now, transform_stamp);
       Eigen::Affine3d robot_pose;
       tf::transformTFToEigen(transform_stamp, robot_pose);
+      ROS_WARN_STREAM("COLLECTED: " << robot_pose.matrix());
       robot_poses.push_back(robot_pose);
     }
     catch (tf::TransformException &ex)
@@ -305,13 +313,22 @@ bool performCalibration(ensenso_rviz_plugin::PerformEnsensoCalibration::Request 
     if (!executeKnownTrajectoryServiceClient.call(srv))
       ROS_WARN_STREAM("Unable to execute trajectory2\n" << srv.response);
 
+
+  ros::Time now(ros::Time::now());
+  tf::StampedTransform guess_tf;
+  listener.waitForTransform("/tool0", tcp_name, now, ros::Duration(1.5));
+  listener.lookupTransform("/tool0", tcp_name, now, guess_tf);
+
+  Eigen::Affine3d guess_eigen;
+  tf::poseTFToEigen(guess_tf, guess_eigen);
+
   // Compute calibration matrix
   // TODO: Add guess calibration support
   status.data = "Computing calibration matrix...";
   status_pub->publish(status);
   std::string result;
 
-  if (!ensenso->computeCalibrationMatrix(robot_poses, result, "Moving", "Hand"))
+  if (!ensenso->computeCalibrationMatrix(robot_poses, result, "Moving", "Hand", guess_eigen.inverse()))
   {
     status.data = "Failed to compute calibration";
     status_pub->publish(status);
@@ -630,7 +647,7 @@ int main(int argc, char **argv)
   ensenso.reset(new pcl::EnsensoGrabber);
   ensenso->openDevice(0);
   ensenso->openTcpPort();
-  ensenso->configureCapture(true, true, 1, 0.32, true, 1, false, false, false, 10, false); // Disable front light projector, enable IR led light
+  ensenso->configureCapture(true, true, 1, 0.32, false, 1, false, false, false, 10, false); // Disable front light projector, enable IR led light
 
   l_image_pub.reset(new ros::Publisher);
   r_image_pub.reset(new ros::Publisher);
